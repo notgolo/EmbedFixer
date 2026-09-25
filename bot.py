@@ -21,7 +21,7 @@ FIXES=[
         (re.compile(r"(?<!vx)(?<!fx)(?:www\.)?(?:twitter|x)\.com"), "vxtwitter.com"),
         (re.compile(r"(?<!kk)(?<!dd)(?:www\.)?instagram\.com"), "kkinstagram.com"),
         (re.compile(r"(?:www\.)?tiktok\.com"), "tnktok.com"),
-        (re.compile(r"(?<!vx)(?:www\.)(?:reddit|old\.reddit)\.com"), "vxreddit.com"),
+        (re.compile(r"(?<!vx)(?:(?:www\.)?old\.)?(?:www\.)?(?:reddit)\.com"), "vxreddit.com"),
 ]
 
 @bot.event
