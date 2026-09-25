@@ -18,7 +18,7 @@ intents.members=True
 bot=commands.Bot(command_prefix="!", intents=intents)
 
 FIXES=[
-        (re.compile(r"(?<!vx)(?<fx)(?:www\.)?(?:twitter|x)\.com"), "vxtwitter.com"),
+        (re.compile(r"(?<!vx)(?<!fx)(?:www\.)?(?:twitter|x)\.com"), "vxtwitter.com"),
         (re.compile(r"(?<!kk)(?<!dd)(?:www\.)?instagram\.com"), "kkinstagram.com"),
         (re.compile(r"(?:www\.)?tiktok\.com"), "tnktok.com"),
         (re.compile(r"(?<!vx)(?:www\.)(?:reddit|old\.reddit)\.com"), "vxreddit.com"),
