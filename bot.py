@@ -3,6 +3,7 @@ from discord.ext import commands
 import logging
 from dotenv import load_dotenv
 import os
+import webserver
 import re
 
 load_dotenv()
@@ -40,5 +41,7 @@ async def on_message(message):
             print(f"Missing permissions: {e}")
         except discord.HTTPException as e:
             print(f"HTTP error: {e}")
+
+webserver.keep_alive()
 
 bot.run(token, log_handler=handler)
