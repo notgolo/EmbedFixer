@@ -17,11 +17,18 @@ intents.members=True
 
 bot=commands.Bot(command_prefix="!", intents=intents)
 
+#embed fixing
 FIXES=[
-        (re.compile(r"(?<!vx)(?<!fx)(?:www\.)?(?:twitter|x)\.com"), "vxtwitter.com"),
-        (re.compile(r"(?<!kk)(?<!dd)(?:www\.)?instagram\.com"), "kkinstagram.com"),
-        (re.compile(r"(?:www\.)?tiktok\.com"), "tnktok.com"),
-        (re.compile(r"(?<!vx)(?:(?:www\.)?old\.)?(?:www\.)?(?:reddit)\.com"), "vxreddit.com"),
+        (re.compile(r"(?<!vx)(?<!fx)(?:www\.)?(?:twitter|x)\.com"), "www.vxtwitter.com"),
+        (re.compile(r"(?<!kk)(?<!dd)(?:www\.)?instagram\.com"), "www.kkinstagram.com"),
+        (re.compile(r"(?:www\.)?tiktok\.com"), "www.tnktok.com"),
+        (re.compile(r"(?<!vx)(?:(?:www\.)?old\.)?(?:www\.)?(?:reddit)\.com"), "www.vxreddit.com"),
+]
+
+#p3r
+TRIGGERWORDS=[
+        re.compile(r"\bp3r\b", re.IGNORECASE),
+        re.compile(r"\bpersona 3 reload\b", re.IGNORECASE),
 ]
 
 @bot.event
@@ -29,6 +36,7 @@ async def on_message(message):
     if message.author.bot:
         return
 
+    #embed fixing
     fixed=message.content
     for pattern, replacement in FIXES:
         fixed=pattern.sub(replacement, fixed)
@@ -42,6 +50,24 @@ async def on_message(message):
         except discord.HTTPException as e:
             print(f"HTTP error: {e}")
 
+    #p3r
+    triggered=False
+    for pattern in TRIGGERWORDS:
+        if pattern.search(message.content):
+            triggered=True
+            break
+
+    if triggered:
+        try:
+            gif_file = discord.File("reload.gif")
+            await message.channel.send(file=gif_file)
+        except discord.Forbidden as e:
+            print(f"Missing permissions: {e}")
+        except discord.HTTPException as e:
+            print(f"HTTP error: {e}")
+        except FileNotFoundError:
+            print("GIF not found")
+ 
 webserver.keep_alive()
 
 bot.run(token, log_handler=handler)
