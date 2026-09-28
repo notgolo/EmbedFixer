@@ -6,3 +6,4 @@
 - Twitter (vxtwitter)
 - Instagram (kkinstagram)
 - Bluesky (bskye)
+- Threads (vxthreads)

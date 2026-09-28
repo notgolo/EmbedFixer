@@ -26,6 +26,7 @@ EMBED_FIXES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"(?:www\.)?tiktok\.com"), "www.tnktok.com"),
     (re.compile(r"(?<!vx)(?:(?:www\.)?old\.)?(?:www\.)?(?:reddit)\.com"), "www.vxreddit.com"),
     (re.compile(r"(?:www\.)?bsky\.app"), "bskye.app"),
+    (re.compile(r"(?:www\.)?threads\.com"), "www.vxthreads.com"),
 ]
 
 GIF_REPLIES: list[tuple[re.Pattern[str], str]] = [
