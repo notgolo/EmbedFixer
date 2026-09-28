@@ -1,2 +1,6 @@
 *.pyproj
 *.slnx
+*.log
+.git
+.env
+.venv
