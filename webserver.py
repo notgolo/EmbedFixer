@@ -3,13 +3,14 @@ from threading import Thread
 
 app=Flask("")
 @app.route("/")
-def home():
+
+def home() -> str:
     return "botto okie desu :3"
 
-def run():
-    app.run(host="0.0.0.0", port=8080)
+def run() -> None:
+    app.run(host = "0.0.0.0", port = 8080)
 
-def keep_alive():
-    t=Thread(target=run)
+def keep_alive() -> None:
+    t = Thread(target=run)
     t.start()
 
