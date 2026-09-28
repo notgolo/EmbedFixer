@@ -24,14 +24,13 @@ FIXES = [
         (re.compile(r"(?<!vx)(?<!fx)(?:www\.)?(?:twitter|x)\.com"), "www.vxtwitter.com"),
         (re.compile(r"(?<!kk)(?<!dd)(?:www\.)?instagram\.com"), "www.kkinstagram.com"),
         (re.compile(r"(?:www\.)?tiktok\.com"), "www.tnktok.com"),
-        (re.compile(r"(?<!vx)(?:(?:www\.)?old\.)?(?:www\.)?(?:reddit)\.com"), "www.vxreddit.com")
+        (re.compile(r"(?<!vx)(?:(?:www\.)?old\.)?(?:www\.)?(?:reddit)\.com"), "www.vxreddit.com"),
 ]
 
 #p3r
-p3rSoullessSlopLink: str = "https://static2.klipy.com/ii/e7539ef2aad336edaa067c28ee130b3c/82/d8/xXGMoeJRZCQKj09dsj.gif"
 TRIGGERWORDS = [
         re.compile(r"\bp3r\b", re.IGNORECASE),
-        re.compile(r"\bpersona 3 reload\b", re.IGNORECASE)
+        re.compile(r"\bpersona 3 reload\b", re.IGNORECASE),
 ]
 
 @bot.event
@@ -56,7 +55,7 @@ async def on_message(message):
     #p3r
     for pattern in TRIGGERWORDS:
         if pattern.search(message.content):
-            message.channel.send(p3rSoullessSlopLink)
+            message.channel.send("https://static2.klipy.com/ii/e7539ef2aad336edaa067c28ee130b3c/82/d8/xXGMoeJRZCQKj09dsj.gif")
             break
  
 webserver.keep_alive()
