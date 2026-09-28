@@ -22,7 +22,6 @@ intents.members = True
 
 bot: commands.Bot = commands.Bot(command_prefix = "!", intents = intents)
 
-#embed fixing
 EMBED_FIXES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"(?<!vx)(?<!fx)(?:www\.)?(?:twitter|x)\.com"), "www.vxtwitter.com"),
     (re.compile(r"(?<!kk)(?<!dd)(?:www\.)?instagram\.com"), "www.kkinstagram.com"),
@@ -30,7 +29,6 @@ EMBED_FIXES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"(?<!vx)(?:(?:www\.)?old\.)?(?:www\.)?(?:reddit)\.com"), "www.vxreddit.com"),
 ]
 
-#p3r
 GIF_REPLIES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bp3r\b|\bpersona 3 reload\b", re.IGNORECASE), "https://static2.klipy.com/ii/e7539ef2aad336edaa067c28ee130b3c/82/d8/xXGMoeJRZCQKj09dsj.gif"),
     (re.compile(r"\bjunpei\b|\biori\b", re.IGNORECASE), "https://static2.klipy.com/ii/f87f46a2c5aeaeed4c68910815f73eaf/b7/b1/NMPtgjVV.gif"),
