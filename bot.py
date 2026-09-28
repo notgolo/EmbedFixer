@@ -20,7 +20,7 @@ intents.members = True
 bot: commands.Bot = commands.Bot(command_prefix = "!", intents = intents)
 
 #embed fixing
-FIXES: list[tuple[re.Pattern[str], str]] = [
+EMBED_FIXES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"(?<!vx)(?<!fx)(?:www\.)?(?:twitter|x)\.com"), "www.vxtwitter.com"),
     (re.compile(r"(?<!kk)(?<!dd)(?:www\.)?instagram\.com"), "www.kkinstagram.com"),
     (re.compile(r"(?:www\.)?tiktok\.com"), "www.tnktok.com"),
@@ -28,19 +28,22 @@ FIXES: list[tuple[re.Pattern[str], str]] = [
 ]
 
 #p3r
-TRIGGERWORDS: list[tuple[re.Pattern[str], str]] = [
+GIF_REPLIES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bp3r\b|\bpersona 3 reload\b", re.IGNORECASE), "https://static2.klipy.com/ii/e7539ef2aad336edaa067c28ee130b3c/82/d8/xXGMoeJRZCQKj09dsj.gif"),
-    (re.compile(r"\bjunpei\b|\biori\b", re.IGNORECASE), "https://static2.klipy.com/ii/f87f46a2c5aeaeed4c68910815f73eaf/b7/b1/NMPtgjVV.gif")
+    (re.compile(r"\bjunpei\b|\biori\b", re.IGNORECASE), "https://static2.klipy.com/ii/f87f46a2c5aeaeed4c68910815f73eaf/b7/b1/NMPtgjVV.gif"),
+    (re.compile(r"\bi've been waiting for this\b|\bi've been waiting for this!\b|\bive been waiting for this\b|\bive been waiting for this!\b", re.IGNORECASE), "https://klipy.com/gifs/persona-3-dancing-akihiko-dance-ive-been-waiting-for-this-persona3")
 ]
 
 @bot.event
-async def on_message(message: discord.Message) -> None:
+async def OnMessage(message: discord.Message) -> None:
     if message.author.bot:
         return
 
+
+
     #Embed Fixing
     fixed: str = message.content
-    for pattern, replacement in FIXES:
+    for pattern, replacement in EMBED_FIXES:
         fixed = pattern.sub(replacement, fixed)
     
     if fixed != message.content:
@@ -52,10 +55,12 @@ async def on_message(message: discord.Message) -> None:
         except discord.HTTPException as e:
             print(f"HTTP error: {e}")
 
-    #P3R
-    for pattern in TRIGGERWORDS:
+    for pattern in GIF_REPLIES:
         if pattern[0].search(message.content):
-            await message.reply(pattern[1])
+            if(message.reference is None or message.reference.message_id is None):
+                await message.reply(pattern[1])
+            else:
+                await message.channel.fetch_message(message.reference.message_id)
             break
 
 #Begin
