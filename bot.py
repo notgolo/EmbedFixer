@@ -39,8 +39,6 @@ async def OnMessage(message: discord.Message) -> None:
     if message.author.bot:
         return
 
-
-
     #Embed Fixing
     fixed: str = message.content
     for pattern, replacement in EMBED_FIXES:
@@ -57,10 +55,7 @@ async def OnMessage(message: discord.Message) -> None:
 
     for pattern in GIF_REPLIES:
         if pattern[0].search(message.content):
-            if(message.reference is None or message.reference.message_id is None):
-                await message.reply(pattern[1])
-            else:
-                await message.channel.fetch_message(message.reference.message_id)
+            await message.reply(pattern[1])
             break
 
 #Begin
