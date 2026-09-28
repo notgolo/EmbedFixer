@@ -28,10 +28,9 @@ FIXES: list[tuple[re.Pattern[str], str]] = [
 ]
 
 #p3r
-P3R_SOULLESS_SLOP_LINK: str = "https://static2.klipy.com/ii/e7539ef2aad336edaa067c28ee130b3c/82/d8/xXGMoeJRZCQKj09dsj.gif";
-TRIGGERWORDS: list[re.Pattern[str]] = [
-    re.compile(r"\bp3r\b", re.IGNORECASE),
-    re.compile(r"\bpersona 3 reload\b", re.IGNORECASE),
+TRIGGERWORDS: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"\bp3r\b|\bpersona 3 reload\b", re.IGNORECASE), "https://static2.klipy.com/ii/e7539ef2aad336edaa067c28ee130b3c/82/d8/xXGMoeJRZCQKj09dsj.gif"),
+    (re.compile(r"\bjunpei\b|\biori\b", re.IGNORECASE), "https://static2.klipy.com/ii/f87f46a2c5aeaeed4c68910815f73eaf/b7/b1/NMPtgjVV.gif")
 ]
 
 @bot.event
@@ -55,8 +54,8 @@ async def on_message(message: discord.Message) -> None:
 
     #P3R
     for pattern in TRIGGERWORDS:
-        if pattern.search(message.content):
-            await message.reply(P3R_SOULLESS_SLOP_LINK)
+        if pattern[0].search(message.content):
+            await message.reply(pattern[1])
             break
 
 #Begin
