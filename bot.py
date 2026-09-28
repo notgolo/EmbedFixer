@@ -56,9 +56,9 @@ async def on_message(message: discord.Message) -> None:
     #P3R
     for pattern in TRIGGERWORDS:
         if pattern.search(message.content):
-            await message.channel.send(P3R_SOULLESS_SLOP_LINK)
+            await message.reply(P3R_SOULLESS_SLOP_LINK)
             break
- 
+
 #Begin
 webserver.keep_alive()
 
