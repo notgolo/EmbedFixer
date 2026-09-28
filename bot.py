@@ -1,6 +1,7 @@
 #what in the clartington to the fartington is this shit
 
 import os
+
 import webserver
 import re
 from logging import FileHandler
@@ -54,10 +55,17 @@ async def on_message(message: discord.Message) -> None:
             print(f"HTTP error: {e}")
 
     #P3R
-    for pattern in TRIGGERWORDS:
-        if pattern[0].search(message.content):
-            await message.reply(pattern[1])
-            break
+    for pattern, reply in TRIGGERWORDS:
+        if pattern.search(message.content):
+            continue
+
+        replyMessage: discord.Message
+        if(message.reference is None or message.reference.message_id is None):
+            replyMessage = message;
+        else:
+            replyMessage = await message.channel.fetch_message(message.reference.message_id)
+        await replyMessage.reply(reply)
+        break
 
 #Begin
 webserver.keep_alive()
