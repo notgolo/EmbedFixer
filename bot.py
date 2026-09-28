@@ -67,14 +67,8 @@ async def on_message(message: discord.Message) -> None:
             await replyMessage.reply(reply)
             break
 
-async def WakeupMessage() -> None:
-    channel = bot.get_channel(1293267621554425938)
-    if(isinstance(channel, discord.channel.TextChannel)):
-        await channel.send("Hello Personacord!")
-
 #Begin
 webserver.keep_alive()
 
 if isinstance(token, str):
     bot.run(token, log_handler = handler)
-    asyncio.run(WakeupMessage())
