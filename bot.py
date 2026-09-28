@@ -1,5 +1,6 @@
 #what in the clartington to the fartington is this shit
 
+import asyncio
 import os
 import webserver
 import re
@@ -55,11 +56,21 @@ async def OnMessage(message: discord.Message) -> None:
 
     for pattern in GIF_REPLIES:
         if pattern[0].search(message.content):
-            await message.reply(pattern[1])
+            if(message.reference is None or message.reference.message_id is None):
+                await message.reply(pattern[1])
+            else:
+                await message.channel.fetch_message(message.reference.message_id)
             break
+
+async def WakeupMessage() -> None:
+    channel = bot.get_channel(1293267621554425938)
+    if(isinstance(channel, discord.channel.TextChannel)):
+        await channel.send("Hello Personacord!")
 
 #Begin
 webserver.keep_alive()
 
 if isinstance(token, str):
     bot.run(token, log_handler = handler)
+    asyncio.run(WakeupMessage())
+    
