@@ -34,6 +34,7 @@ GIF_REPLIES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bjunpei\b|\biori\b", re.IGNORECASE), "https://static2.klipy.com/ii/f87f46a2c5aeaeed4c68910815f73eaf/b7/b1/NMPtgjVV.gif"),
     (re.compile(r"\bive been waiting for this\b|\bi've been waiting for this\b", re.IGNORECASE), "https://klipy.com/gifs/persona-3-dancing-akihiko-dance-ive-been-waiting-for-this-persona3"),
     (re.compile(r"\bi used to work at blizzard\b", re.IGNORECASE), "https://static2.klipy.com/ii/4493325008d34b7bf8cd6813cd5c1619/99/b4/YmQ7rbgLeYDeBIgHIYEo.gif"),
+    (re.compile(r"clartation", re.IGNORECASE), "https://cdn.discordapp.com/attachments/667770592015024129/1517702508490002502/Screenshot_2026-06-19_212700.gif?ex=6abbbcdb&is=6aba6b5b&hm=cdc554548e81d7767be6abafdabe69b48c890f8037df35561e5af750fd0891c7&")
 ]
 
 @bot.event
