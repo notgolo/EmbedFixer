@@ -55,7 +55,7 @@ async def on_message(message):
     #p3r
     for pattern in TRIGGERWORDS:
         if pattern.search(message.content):
-            message.channel.send("https://static2.klipy.com/ii/e7539ef2aad336edaa067c28ee130b3c/82/d8/xXGMoeJRZCQKj09dsj.gif")
+            await message.channel.send("https://static2.klipy.com/ii/e7539ef2aad336edaa067c28ee130b3c/82/d8/xXGMoeJRZCQKj09dsj.gif")
             break
  
 webserver.keep_alive()
