@@ -30,7 +30,8 @@ FIXES: list[tuple[re.Pattern[str], str]] = [
 #p3r
 TRIGGERWORDS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bp3r\b|\bpersona 3 reload\b", re.IGNORECASE), "https://static2.klipy.com/ii/e7539ef2aad336edaa067c28ee130b3c/82/d8/xXGMoeJRZCQKj09dsj.gif"),
-    (re.compile(r"\bjunpei\b|\biori\b", re.IGNORECASE), "https://static2.klipy.com/ii/f87f46a2c5aeaeed4c68910815f73eaf/b7/b1/NMPtgjVV.gif")
+    (re.compile(r"\bjunpei\b|\biori\b", re.IGNORECASE), "https://static2.klipy.com/ii/f87f46a2c5aeaeed4c68910815f73eaf/b7/b1/NMPtgjVV.gif"),
+    (re.compile(r"\bi've been waiting for this\b|\bi've been waiting for this!\b|\bive been waiting for this\b|\bive been waiting for this!\b", re.IGNORECASE), "https://klipy.com/gifs/persona-3-dancing-akihiko-dance-ive-been-waiting-for-this-persona3")
 ]
 
 @bot.event
