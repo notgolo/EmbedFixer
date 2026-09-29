@@ -123,13 +123,13 @@ async def on_message(message: discord.Message) -> None:
                 return
 
             enabled: str = commandSections[1].lower()
-            if(enabled == "true"):
+            if enabled == "true":
                 gifRepliesEnabled = True
                 if message.author.id == galeID:
                     await message.reply("Gif replies enabled")
                 else:
                     await message.reply("gif replies: enabled, nyaa (⸝⸝⸝O﹏ O⸝⸝⸝)")
-            elif (enabled == "false"):
+            elif enabled == "false":
                 gifRepliesEnabled = False
                 if message.author.id == galeID:
                     await message.reply("Gif replies disabled")
@@ -139,7 +139,8 @@ async def on_message(message: discord.Message) -> None:
                 await message.reply("Usage: &setgifreplies [true/false]")
             else:
                 await message.reply("purr, you are NYAT using proper syntax! use: &setgifreplies [true/false] (˶˃ᆺ˂˶)")
-         
+        elif commandSections[0] == "&pingcheese":
+            await message.channel.send(f"Hourly {chat_handle_from_id(421792271843721216)} ping!");
         #elif commandSections[0] == "&standoff" and len(commandSections) > 2:
             #if commandSections[1] == "embedremove":
                 #targetMember: discord.Member | None = get_member(message.guild, parse_member_id(message.guild, commandSections[2]))
