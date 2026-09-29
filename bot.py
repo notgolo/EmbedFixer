@@ -113,18 +113,18 @@ async def on_message(message: discord.Message) -> None:
 
         if commandSections[0] == "&setgifreplies" and  len(commandSections) > 1:
             if message.author.id not in adminIDs:
-                await message.reply("You don't have the motion for that")
+                await message.reply("you do NYAT have perms for dat! ^. .^₎⟆")
                 return
 
             enabled: str = commandSections[1].lower()
             if(enabled == "true"):
                 gifRepliesEnabled = True
-                await message.reply("Gif replies enabled")
+                await message.reply("gif replies: enabled, nyaa (⸝⸝⸝O﹏ O⸝⸝⸝)")
             elif (enabled == "false"):
                 gifRepliesEnabled = False
-                await message.reply("Gif replies disabled")
+                await message.reply("nyaaaa, gif replies: disabled ૮꒰ ˶- ༝ - ˶꒱ა ♡")
             else:
-                await message.reply("Usage: &setgifreplies [true/false]")
+                await message.reply("ur nyaat using proper syntax! use: &setgifreplies [true/false] (,,>﹏<,,)")
         #elif commandSections[0] == "&standoff" and len(commandSections) > 2:
             #if commandSections[1] == "embedremove":
                 #targetMember: discord.Member | None = get_member(message.guild, parse_member_id(message.guild, commandSections[2]))
