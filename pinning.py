@@ -25,8 +25,8 @@ async def checkPin(commandMessage: Message | None, pinMessage: Message) -> None:
         if not isinstance(reaction.emoji, str):
             continue
 
-        if reaction.emoji != "📌":
-            debugMessage += f"''NOT FOUND '{reaction.emoji}''"
+        if str(reaction.emoji) != "📌":
+            debugMessage += f"''NOT FOUND '{reaction.emoji}' '{repr(reaction.emoji)}''"
             continue
 
         debugMessage += f"''FOUND '{reaction.emoji}''"
@@ -39,7 +39,7 @@ async def checkPin(commandMessage: Message | None, pinMessage: Message) -> None:
         await commandMessage.reply(f"Failed {debugMessage}");
 
 async def checkPinMessage(bot: commands.Bot, payload: discord.RawReactionActionEvent) -> None:
-    if payload.emoji != "📌":
+    if str(payload.emoji) != "📌":
         return None;
 
     message: Message | None = await get_message(bot, payload);
