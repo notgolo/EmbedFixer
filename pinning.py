@@ -17,11 +17,11 @@ async def get_message(bot: commands.Bot, payload: discord.RawReactionActionEvent
 
     return await channel.fetch_message(payload.message_id)
 
-async def checkPin(commandMessage: Message | None, message: Message) -> None:
+async def checkPin(commandMessage: Message | None, pinMessage: Message) -> None:
     debugMessage: str = "";
 
     pushpins: int = 0
-    for reaction in message.reactions:
+    for reaction in pinMessage.reactions:
         if reaction.emoji is not Emoji:
             continue
         
@@ -37,7 +37,9 @@ async def checkPin(commandMessage: Message | None, message: Message) -> None:
         await commandMessage.reply(f"Found emoji IDs: {debugMessage}");
 
     if pushpins > 3:
-        await message.pin(reason = "Pinned via bot vote.")
+        await pinMessage.pin(reason = "Pinned via bot vote.")
+    else:
+        await pinMessage.reply("Failed to pin");
 
 async def checkPinMessage(bot: commands.Bot, payload: discord.RawReactionActionEvent) -> None:
     if payload.emoji != "📌":
