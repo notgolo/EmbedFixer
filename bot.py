@@ -66,7 +66,7 @@ async def on_message(message: Message) -> None:
             
             botPermissions: Permissions = message.channel.permissions_for(botMember)
             if not botPermissions.pin_messages:
-                await message.reply("I cannot add pins, requires 'manage_messages' permission")                
+                await message.reply("I cannot add pins, requires 'pin_messages' permission")                
                 return
 
             if message.reference is None:
