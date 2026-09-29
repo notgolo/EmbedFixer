@@ -23,6 +23,8 @@ intents.members = True
 
 bot: commands.Bot = commands.Bot(command_prefix = "!", intents = intents)
 
+adminIDs: list[int] = [221075470437842944, 424304430184398849]
+
 gifRepliesEnabled: bool = False
 
 timeLastMessageSent: dict[int, datetime.datetime]
@@ -109,8 +111,13 @@ async def on_message(message: discord.Message) -> None:
         command = re.sub(r" {2,}", " ", command) #set all remaining whitespace to one whitespace/remove all double spaces
         commandSections: list[str] = command.split(" ")
 
-        if commandSections[0] == "&setgifreplies" and len(commandSections) > 1:
-            if message.author.id != 221075470437842944:
+        if commandSections[0] == "&setgifreplies":
+            if len(commandSections) == 2:
+                await message.reply("Usage: &setgifreplies [true/false]")
+                return
+
+            if message.author.id not in adminIDs:
+                await message.reply("You don't have the motion for that")
                 return
 
             enabled: str = commandSections[1].lower()
@@ -118,8 +125,8 @@ async def on_message(message: discord.Message) -> None:
                 gifRepliesEnabled = True
                 await message.reply("Gif replies enabled")
             elif (enabled == "false"):
-               gifRepliesEnabled = False
-               await message.reply("Gif replies disabled")
+                gifRepliesEnabled = False
+                await message.reply("Gif replies disabled")
             else:
                 await message.reply("Usage: &setgifreplies [true/false]")
         #elif commandSections[0] == "&standoff" and len(commandSections) > 2:
