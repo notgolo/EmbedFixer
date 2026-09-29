@@ -46,7 +46,12 @@ async def on_message(message: discord.Message) -> None:
         command = re.sub(r" {2,}", " ", command) #set all remaining whitespace to one whitespace/remove all double spaces
         commandSections: list[str] = command.split(" ")
 
-        if commandSections[0] == "&setgifreplies" and  len(commandSections) > 1:
+        if commandSections[0] == "&version":
+            if (not general.isAdmin(message.author.id)):
+                return
+
+            await message.reply(f"Current Version is {version}.")
+        elif commandSections[0] == "&setgifreplies" and  len(commandSections) > 1:
             if general.isAdmin(message.author.id) == False:
                 if message.author.id == general.lintyID:
                     await message.reply("stfu")
