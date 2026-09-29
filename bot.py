@@ -52,7 +52,7 @@ GIF_REPLIES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bkms\b", re.IGNORECASE), "https://static2.klipy.com/ii/4e7bea9f7a3371424e6c16ebc93252fe/7b/f9/pDTFcfyOIo8iQ.gif"),
     (re.compile(r"\bkys\b", re.IGNORECASE), "https://cdn.discordapp.com/attachments/1293267621554425938/1554513494190071880/caption.gif?ex=6abd2902&is=6abbd782&hm=6d6d0c9831871f81352f06b24b8f098f69b80aa67f76ea5cad7c4c06a8d42543&"),
     (re.compile(r"\brip pokimanes cat\b", re.IGNORECASE), "https://static2.klipy.com/ii/f87f46a2c5aeaeed4c68910815f73eaf/fe/9e/JZMsbFqu.gif"),
-    (re.compile(r" ntr ", re.IGNORECASE), "https://static2.klipy.com/ii/4e7bea9f7a3371424e6c16ebc93252fe/42/da/uHc1olriiQY66CF.gif"),
+    (re.compile(r"\bntr\b", re.IGNORECASE), "https://static2.klipy.com/ii/4e7bea9f7a3371424e6c16ebc93252fe/42/da/uHc1olriiQY66CF.gif"),
     (re.compile(r"\bwednesday\b", re.IGNORECASE), "https://static2.klipy.com/ii/4e7bea9f7a3371424e6c16ebc93252fe/b6/41/XKpuYeFIeti8Vhe.gif"),
     (re.compile(r"\bfriday\b", re.IGNORECASE), "https://static2.klipy.com/ii/4493325008d34b7bf8cd6813cd5c1619/24/80/hTK1G9Uq2SuBn.gif")
 ]
