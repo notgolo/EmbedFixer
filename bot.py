@@ -65,10 +65,7 @@ async def on_message(message: Message) -> None:
                 return
             
             botPermissions: Permissions = message.channel.permissions_for(botMember)
-            if not botPermissions.read_message_history:
-                await message.reply("I cannot add pins, requires 'read_message_history' permission")                
-                return
-            if not botPermissions.manage_messages:
+            if not botPermissions.pin_messages:
                 await message.reply("I cannot add pins, requires 'manage_messages' permission")                
                 return
 
@@ -83,7 +80,7 @@ async def on_message(message: Message) -> None:
             pinMessage: Message = await message.channel.fetch_message(message.reference.message_id)
 
             if commandSections[1] == "check":
-                await pinning.checkPin(message, pinMessage)
+                await pinning.checkPin(pinMessage)
             elif commandSections[0] == "remove":
                 await pinMessage.unpin()
         elif commandSections[0] == "&setgifreplies" and  len(commandSections) > 1:

@@ -17,7 +17,7 @@ async def get_message(bot: commands.Bot, payload: discord.RawReactionActionEvent
 
     return await channel.fetch_message(payload.message_id)
 
-async def checkPin(commandMessage: Message | None, pinMessage: Message) -> None:
+async def checkPin( pinMessage: Message) -> None:
     debugMessage: str = "";
     
     pushpins: int = 0
@@ -26,17 +26,13 @@ async def checkPin(commandMessage: Message | None, pinMessage: Message) -> None:
             continue
 
         if str(reaction.emoji) != "📌":
-            debugMessage += f"''NOT FOUND '{reaction.emoji}' '{repr(reaction.emoji)}''"
             continue
 
-        debugMessage += f"''FOUND '{reaction.emoji}''"
         pushpins = reaction.count
         break
 
     if pushpins > 3:
         await pinMessage.pin(reason = "Pinned via bot vote.")
-    elif commandMessage is not None:
-        await commandMessage.reply(f"Failed {debugMessage}");
 
 async def checkPinMessage(bot: commands.Bot, payload: discord.RawReactionActionEvent) -> None:
     if str(payload.emoji) != "📌":
@@ -46,4 +42,4 @@ async def checkPinMessage(bot: commands.Bot, payload: discord.RawReactionActionE
     if message is None:
         return None
     
-    await checkPin(None, message)
+    await checkPin(message)
