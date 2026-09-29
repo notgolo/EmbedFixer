@@ -125,20 +125,20 @@ async def on_message(message: discord.Message) -> None:
             enabled: str = commandSections[1].lower()
             if(enabled == "true"):
                 gifRepliesEnabled = True
-                if message.author.id == goloID:
-                    await message.reply("gif replies: enabled, nyaa (⸝⸝⸝O﹏ O⸝⸝⸝)")
-                else:
+                if message.author.id == galeID:
                     await message.reply("Gif replies enabled")
+                else:
+                    await message.reply("gif replies: enabled, nyaa (⸝⸝⸝O﹏ O⸝⸝⸝)")
             elif (enabled == "false"):
                 gifRepliesEnabled = False
-                if message.author.id == goloID:
-                    await message.reply("nyaaaa, gif replies: disabled ૮꒰ ˶- ༝ - ˶꒱ა ♡")
-                else:                    
+                if message.author.id == galeID:
                     await message.reply("Gif replies disabled")
-            elif message.author.id == goloID:
-                await message.reply("nyaaaa, gif replies: disabled ૮꒰ ˶- ༝ - ˶꒱ა ♡")
-            else:                    
+                else:
+                    await message.reply("nyaaaa, gif replies: disabled ૮꒰ ˶- ༝ - ˶꒱ა ♡")
+            elif message.author.id == galeID:
                 await message.reply("Usage: &setgifreplies [true/false]")
+            else:
+                await message.reply("nyaaaa, gif replies: disabled ૮꒰ ˶- ༝ - ˶꒱ა ♡")
          
         #elif commandSections[0] == "&standoff" and len(commandSections) > 2:
             #if commandSections[1] == "embedremove":
