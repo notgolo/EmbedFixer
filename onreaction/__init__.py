@@ -1,1 +1,1 @@
-from .pinning import *
+from pinning import *

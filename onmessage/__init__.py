@@ -1,2 +1,2 @@
-from .embedfixer import *
-from .gifreply import *
+from embedfixer import *
+from gifreply import *
