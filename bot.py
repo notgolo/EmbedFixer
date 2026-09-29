@@ -19,8 +19,8 @@ import webserver
 
 import general
 
-from OnMessage import onmessage
-from OnReaction import onreaction 
+import onmessage
+import onreaction
 
 load_dotenv()
 token: str | None = os.getenv("DISCORD_TOKEN")
