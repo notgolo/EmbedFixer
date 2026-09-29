@@ -3,10 +3,7 @@ from discord.ext import commands
 from discord import Guild, TextChannel, Message
 from discord.abc import GuildChannel
 
-async def get_message(
-    bot: commands.Bot,
-    payload: discord.RawReactionActionEvent
-) -> Message | None:
+async def get_message(bot: commands.Bot, payload: discord.RawReactionActionEvent) -> Message | None:
     if payload.guild_id is None:
         return None
 

@@ -19,9 +19,12 @@ GIF_REPLIES: list[tuple[re.Pattern[str], str]] = [
 ]
 
 def setGIFReplies(state: bool) -> None:
+    global gifRepliesEnabled
     gifRepliesEnabled = state
 
-async def gifReply(message: discord.Message) -> None:        
+async def gifReply(message: discord.Message) -> None:   
+    global gifRepliesEnabled
+
     if gifRepliesEnabled:
         for pattern, reply in GIF_REPLIES:
             if pattern.search(message.content):
