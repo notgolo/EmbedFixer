@@ -16,7 +16,6 @@ from discord.ext import commands
 
 #local imports
 import webserver
-
 import general
 import embedfixer 
 import gifreply
