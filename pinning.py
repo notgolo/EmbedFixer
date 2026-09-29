@@ -25,7 +25,7 @@ async def checkPin(commandMessage: Message | None, message: Message) -> None:
         if reaction.emoji is not Emoji:
             continue
         
-        debugMessage += f"{debugMessage}, {reaction.emoji.name}";
+        debugMessage += f"{debugMessage}, {reaction.emoji.id}";
 
         if reaction.emoji.name is None or reaction.emoji.name != "pushpin":
             continue
@@ -34,7 +34,7 @@ async def checkPin(commandMessage: Message | None, message: Message) -> None:
         break
 
     if commandMessage is not None:
-        await commandMessage.reply(f"Found: {debugMessage}");
+        await commandMessage.reply(f"Found emoji IDs: {debugMessage}");
 
     if pushpins > 3:
         await message.pin(reason = "Pinned via bot vote.")
