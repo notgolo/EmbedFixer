@@ -53,52 +53,52 @@ GIF_REPLIES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"friday", re.IGNORECASE), "https://static2.klipy.com/ii/4493325008d34b7bf8cd6813cd5c1619/24/80/hTK1G9Uq2SuBn.gif")
 ]
 
-def parse_member_id(guild: discord.Guild | None, possibleID: str | None) -> int | None:
-    if guild is None or possibleID is None:
-        return None
+#def parse_member_id(guild: discord.Guild | None, possibleID: str | None) -> int | None:
+    #if guild is None or possibleID is None:
+        #return None
     
-    possibleID = possibleID.strip();
-    try:
-        if possibleID.startswith("<@") and possibleID.endswith(">"):
-            userID: int = int(possibleID[2:len(possibleID) - 1])
-            if guild_has_member(guild, userID):
-                return None
-            return userID
-    except ValueError:
-        return None
+    #possibleID = possibleID.strip();
+    #try:
+        #if possibleID.startswith("<@") and possibleID.endswith(">"):
+            #userID: int = int(possibleID[2:len(possibleID) - 1])
+            #if guild_has_member(guild, userID):
+                #return None
+            #return userID
+    #except ValueError:
+        #return None
 
-    return None
+    #return None
 
-def chat_handle_from_id(handle: int | None) -> str:
-    return f"<@{handle}>"
+#def chat_handle_from_id(handle: int | None) -> str:
+    #return f"<@{handle}>"
 
-def guild_has_member(guild: discord.Guild, userID: int) -> bool:
-    return get_member(guild, userID) is not None
-def get_member(guild: discord.Guild | None, userID: int | None) -> discord.Member | None:
-    if guild is None or userID is None:
-        return None
+#def guild_has_member(guild: discord.Guild, userID: int) -> bool:
+    #return get_member(guild, userID) is not None
+#def get_member(guild: discord.Guild | None, userID: int | None) -> discord.Member | None:
+    #if guild is None or userID is None:
+        #return None
 
-    return guild.get_member(userID)
+    #return guild.get_member(userID)
 
-@bot.event
-async def on_ready() -> None:
-    for guild in bot.guilds:
-        if guild is None:
-            break
+#@bot.event
+#async def on_ready() -> None:
+    #for guild in bot.guilds:
+        #if guild is None:
+            #break
     
-        role: discord.Role | None = discord.utils.get(guild.roles, name = "Timed Out Standoff")
-        if role is None:        
-            newPermissions: discord.Permissions = discord.Permissions()
-            newPermissions.embed_links = False
+        #role: discord.Role | None = discord.utils.get(guild.roles, name = "Timed Out Standoff")
+        #if role is None:        
+            #newPermissions: discord.Permissions = discord.Permissions()
+            #newPermissions.embed_links = False
 
-            role = await guild.create_role(name = "Timed Out Standoff", permissions = newPermissions)
+            #role = await guild.create_role(name = "Timed Out Standoff", permissions = newPermissions)
 
 @bot.event
 async def on_message(message: discord.Message) -> None:
     if message.author.bot:
         return
 
-    timeLastMessageSent[message.author.id] = datetime.datetime.now()
+    #timeLastMessageSent[message.author.id] = datetime.datetime.now()
 
     #standoff embed remove not ready
     #command: str = message.content.strip().lower()
