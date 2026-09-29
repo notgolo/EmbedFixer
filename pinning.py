@@ -18,38 +18,24 @@ async def get_message(bot: commands.Bot, payload: discord.RawReactionActionEvent
     return await channel.fetch_message(payload.message_id)
 
 async def checkPin(commandMessage: Message | None, pinMessage: Message) -> None:
-    debugMessage: str = f"{len(pinMessage.reactions)}   ";
-
     pushpins: int = 0
     for reaction in pinMessage.reactions:
-        if isinstance(reaction.emoji, Emoji):
-            debugMessage = debugMessage = f"{debugMessage}, {reaction.emoji.name}";
+        if not isinstance(reaction.emoji, str):
             continue
-        if isinstance(reaction.emoji, PartialEmoji):
-            debugMessage = debugMessage = f"{debugMessage}, {reaction.emoji.name}";
-            continue
-        if isinstance(reaction.emoji, str):
-            debugMessage = debugMessage = f"{debugMessage}, {reaction.emoji}";
-            continue
-        
-        #debugMessage = f"{debugMessage}, {reaction.emoji.id}";
 
-        #if reaction.emoji.name is None or reaction.emoji.name != "pushpin":
-            #continue
+        if reaction.emoji != ":pushpin:":
+            continue
 
-        #pushpins = reaction.count
+        pushpins = reaction.count
         break
-
-    if commandMessage is not None:
-        await commandMessage.reply(f"Found emoji IDs: {debugMessage}");
 
     if pushpins > 3:
         await pinMessage.pin(reason = "Pinned via bot vote.")
-    else:
-        await pinMessage.reply("Failed to pin");
+    elif commandMessage is not None:
+        await commandMessage.reply("Failed to pin");
 
 async def checkPinMessage(bot: commands.Bot, payload: discord.RawReactionActionEvent) -> None:
-    if payload.emoji != "📌":
+    if payload.emoji != ":pushpin:":
         return None;
 
     message: Message | None = await get_message(bot, payload);
@@ -58,7 +44,7 @@ async def checkPinMessage(bot: commands.Bot, payload: discord.RawReactionActionE
     
     pushpins: int = 0
     for reaction in message.reactions:
-        if reaction.emoji != "📌":
+        if reaction.emoji != ":pushpin:":
             continue
 
         pushpins = reaction.count
