@@ -138,7 +138,7 @@ async def on_message(message: discord.Message) -> None:
             elif message.author.id == galeID:
                 await message.reply("Usage: &setgifreplies [true/false]")
             else:
-                await message.reply("nyaaaa, gif replies: disabled ૮꒰ ˶- ༝ - ˶꒱ა ♡")
+                await message.reply("purr, you are NYAT using proper syntax! use: &setgifreplies [true/false] (˶˃ᆺ˂˶)")
          
         #elif commandSections[0] == "&standoff" and len(commandSections) > 2:
             #if commandSections[1] == "embedremove":
