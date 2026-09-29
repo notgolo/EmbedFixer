@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from discord import Guild, TextChannel, Message, Emoji
+from discord import Guild, TextChannel, Message, Emoji, PartialEmoji
 from discord.abc import GuildChannel
 
 async def get_message(bot: commands.Bot, payload: discord.RawReactionActionEvent) -> Message | None:
@@ -22,15 +22,22 @@ async def checkPin(commandMessage: Message | None, pinMessage: Message) -> None:
 
     pushpins: int = 0
     for reaction in pinMessage.reactions:
-        if reaction.emoji is not Emoji:
+        if isinstance(reaction.emoji, Emoji):
+            debugMessage = debugMessage = f"{debugMessage}, {reaction.emoji.name}";
+            continue
+        if isinstance(reaction.emoji, PartialEmoji):
+            debugMessage = debugMessage = f"{debugMessage}, {reaction.emoji.name}";
+            continue
+        if isinstance(reaction.emoji, str):
+            debugMessage = debugMessage = f"{debugMessage}, {reaction.emoji}";
             continue
         
-        debugMessage = f"{debugMessage}, {reaction.emoji.id}";
+        #debugMessage = f"{debugMessage}, {reaction.emoji.id}";
 
-        if reaction.emoji.name is None or reaction.emoji.name != "pushpin":
-            continue
+        #if reaction.emoji.name is None or reaction.emoji.name != "pushpin":
+            #continue
 
-        pushpins = reaction.count
+        #pushpins = reaction.count
         break
 
     if commandMessage is not None:
