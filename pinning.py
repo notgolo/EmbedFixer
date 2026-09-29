@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from discord import Guild, TextChannel, Message
+from discord import Guild, TextChannel, Message, Emoji
 from discord.abc import GuildChannel
 
 async def get_message(bot: commands.Bot, payload: discord.RawReactionActionEvent) -> Message | None:
@@ -17,6 +17,27 @@ async def get_message(bot: commands.Bot, payload: discord.RawReactionActionEvent
 
     return await channel.fetch_message(payload.message_id)
 
+async def checkPin(commandMessage: Message | None, message: Message) -> None:
+    debugMessage: str = "";
+
+    pushpins: int = 0
+    for reaction in message.reactions:
+        if reaction.emoji is not Emoji:
+            continue
+
+        if reaction.emoji.name is None or reaction.emoji.name != "pushpin":
+            debugMessage += f"{debugMessage}, {reaction.emoji.name}";
+            continue
+
+        pushpins = reaction.count
+        break
+
+    if commandMessage is not None:
+        await commandMessage.reply(f"Found: {debugMessage}");
+
+    if pushpins > 3:
+        await message.pin(reason = "Pinned via bot vote.")
+
 async def checkPinMessage(bot: commands.Bot, payload: discord.RawReactionActionEvent) -> None:
     if payload.emoji != "📌":
         return None;
@@ -25,8 +46,6 @@ async def checkPinMessage(bot: commands.Bot, payload: discord.RawReactionActionE
     if message is None:
         return None
     
-    pushpins = next((r.count for r in message.reactions if str(r.emoji) == "📌"), 0)
-
     pushpins: int = 0
     for reaction in message.reactions:
         if reaction.emoji != "📌":

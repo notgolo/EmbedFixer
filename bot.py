@@ -11,8 +11,8 @@ from dotenv import load_dotenv
 
 #discord imports
 import discord
-from discord import permissions
-from discord.ext import commands
+from discord import permissions, Message, Intents
+from discord.ext.commands import Bot
 
 #local imports
 import webserver
@@ -21,21 +21,21 @@ import embedfixer
 import gifreply
 import pinning
 
-version: int = 1
+version: int = 2
 
 load_dotenv()
 token: str | None = os.getenv("DISCORD_TOKEN")
 
 handler: FileHandler = FileHandler(filename = "discord.log", encoding = "utf-8", mode = "w")
 
-intents: discord.Intents = discord.Intents.default()
+intents: Intents = Intents.default()
 intents.message_content = True
 intents.members = True
 
-bot: commands.Bot = commands.Bot(command_prefix = "!", intents = intents)
+bot: Bot = Bot(command_prefix = "!", intents = intents)
 
 @bot.event
-async def on_message(message: discord.Message) -> None:
+async def on_message(message: Message) -> None:
     global version
 
     if message.author.bot:
@@ -47,10 +47,29 @@ async def on_message(message: discord.Message) -> None:
         commandSections: list[str] = command.split(" ")
 
         if commandSections[0] == "&version":
-            if (not general.isAdmin(message.author.id)):
+            if not general.isAdmin(message.author.id):
                 return
 
             await message.reply(f"Current Version is {version}.")
+        elif commandSections[0] == "&pin" and len(commandSections) > 1:
+            if message.author.id != general.galeID:
+                await message.reply("Your mother has hairy toes")
+                return
+
+            if message.reference is None:
+                await message.reply("Reply to message you want to pin dumbass")
+                return
+            
+            if message.reference.message_id is None:
+                await message.reply("I don't know why your command did't work")
+                return
+                
+            pinMessage: Message = await message.channel.fetch_message(message.reference.message_id)
+
+            if commandSections[1] == "check":
+                await pinning.checkPin(message, pinMessage)
+            elif commandSections[0] == "remove":
+                await pinMessage.unpin()
         elif commandSections[0] == "&setgifreplies" and  len(commandSections) > 1:
             if general.isAdmin(message.author.id) == False:
                 if message.author.id == general.lintyID:
