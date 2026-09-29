@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 #discord imports
 import discord
-from discord import permissions, Message, Intents
+from discord import permissions, Message, Intents, Member, Permissions
 from discord.ext.commands import Bot
 
 #local imports
@@ -21,7 +21,7 @@ import embedfixer
 import gifreply
 import pinning
 
-version: int = 3
+version: int = 4
 
 load_dotenv()
 token: str | None = os.getenv("DISCORD_TOKEN")
@@ -40,6 +40,14 @@ async def on_message(message: Message) -> None:
 
     if message.author.bot:
         return
+    if message.guild is None:
+        return
+    if bot.user is None:
+        return
+    
+    botMember: Member | None = message.guild.get_member(bot.user.id);
+    if botMember is None:
+        return
 
     command: str = message.content.strip().lower()
     if len(command) > 0 and command[0] == '&':
@@ -54,6 +62,14 @@ async def on_message(message: Message) -> None:
         elif commandSections[0] == "&pin" and len(commandSections) > 1:
             if message.author.id != general.galeID:
                 await message.reply("Your mother has hairy toes")
+                return
+            
+            botPermissions: Permissions = message.channel.permissions_for(botMember)
+            if not botPermissions.read_message_history:
+                await message.reply("I cannot add pins, requires 'read_message_history' permission")                
+                return
+            if not botPermissions.manage_messages:
+                await message.reply("I cannot add pins, requires 'manage_messages' permission")                
                 return
 
             if message.reference is None:
