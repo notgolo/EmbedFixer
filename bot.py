@@ -1,16 +1,26 @@
 #what in the clartington to the fartington is this shit
 #dogshit language
 
-import asyncio
+#python imports
 import datetime
 import os
-from discord import permissions
-import webserver
 import re
+
 from logging import FileHandler
 from dotenv import load_dotenv
+
+#discord imports
 import discord
+from discord import permissions
 from discord.ext import commands
+
+#local imports
+import webserver
+
+import general
+
+from OnMessage import onmessage
+from OnReaction import onreaction 
 
 load_dotenv()
 token: str | None = os.getenv("DISCORD_TOKEN")
@@ -23,69 +33,12 @@ intents.members = True
 
 bot: commands.Bot = commands.Bot(command_prefix = "!", intents = intents)
 
-galeID: int = 221075470437842944
-goloID: int = 424304430184398849
-lintyID: int = 272210308846583808
-adminIDs: list[int] = [galeID, goloID]
-
-gifRepliesEnabled: bool = False
-
 timeLastMessageSent: dict[int, datetime.datetime]
 
 standoffEmbedRemoveTriggerTime: int = 60
 standoffRoundTime: int = 30
 standoffRemoveEmbedActive: bool = False
 standoffTargets: dict[int, int] = {}
-
-EMBED_FIXES: list[tuple[re.Pattern[str], str]] = [
-    (re.compile(r"(?<!vx)(?<!fx)(?:www\.)?(?:twitter|x)\.com"), "www.vxtwitter.com"),
-    (re.compile(r"(?<!kk)(?<!dd)(?:www\.)?instagram\.com"), "www.kkinstagram.com"),
-    (re.compile(r"(?:www\.)?tiktok\.com"), "www.tnktok.com"),
-    (re.compile(r"(?<!vx)(?:(?:www\.)?old\.)?(?:www\.)?(?:reddit)\.com"), "www.vxreddit.com"),
-    (re.compile(r"(?:www\.)?bsky\.app"), "bskye.app"),
-    (re.compile(r"(?:www\.)?threads\.com"), "www.vxthreads.com"),
-]
-
-GIF_REPLIES: list[tuple[re.Pattern[str], str]] = [
-    (re.compile(r"\bp3r\b|\bpersona 3 reload\b|\bpersona_3_reload\b", re.IGNORECASE), "https://static2.klipy.com/ii/e7539ef2aad336edaa067c28ee130b3c/82/d8/xXGMoeJRZCQKj09dsj.gif"),
-    (re.compile(r"\bjunpei\b|\biori\b", re.IGNORECASE), "https://static2.klipy.com/ii/f87f46a2c5aeaeed4c68910815f73eaf/b7/b1/NMPtgjVV.gif"),
-    (re.compile(r"\bive been waiting for this\b|\bi've been waiting for this\b", re.IGNORECASE), "https://klipy.com/gifs/persona-3-dancing-akihiko-dance-ive-been-waiting-for-this-persona3"),
-    (re.compile(r"\bi used to work at blizzard\b", re.IGNORECASE), "https://static2.klipy.com/ii/4493325008d34b7bf8cd6813cd5c1619/99/b4/YmQ7rbgLeYDeBIgHIYEo.gif"),
-    (re.compile(r"\bclartation\b", re.IGNORECASE), "https://cdn.discordapp.com/attachments/667770592015024129/1517702508490002502/Screenshot_2026-06-19_212700.gif?ex=6abbbcdb&is=6aba6b5b&hm=cdc554548e81d7767be6abafdabe69b48c890f8037df35561e5af750fd0891c7&"),
-    (re.compile(r"\bkms\b", re.IGNORECASE), "https://static2.klipy.com/ii/4e7bea9f7a3371424e6c16ebc93252fe/7b/f9/pDTFcfyOIo8iQ.gif"),
-    (re.compile(r"\bkys\b", re.IGNORECASE), "https://cdn.discordapp.com/attachments/1293267621554425938/1554513494190071880/caption.gif?ex=6abd2902&is=6abbd782&hm=6d6d0c9831871f81352f06b24b8f098f69b80aa67f76ea5cad7c4c06a8d42543&"),
-    (re.compile(r"\brip pokimanes cat\b", re.IGNORECASE), "https://static2.klipy.com/ii/f87f46a2c5aeaeed4c68910815f73eaf/fe/9e/JZMsbFqu.gif"),
-    (re.compile(r"\bntr\b", re.IGNORECASE), "https://static2.klipy.com/ii/4e7bea9f7a3371424e6c16ebc93252fe/42/da/uHc1olriiQY66CF.gif"),
-    (re.compile(r"\bwednesday\b", re.IGNORECASE), "https://static2.klipy.com/ii/4e7bea9f7a3371424e6c16ebc93252fe/b6/41/XKpuYeFIeti8Vhe.gif"),
-    (re.compile(r"\bfriday\b", re.IGNORECASE), "https://static2.klipy.com/ii/4493325008d34b7bf8cd6813cd5c1619/24/80/hTK1G9Uq2SuBn.gif")
-]
-
-def parse_member_id(guild: discord.Guild | None, possibleID: str | None) -> int | None:
-    if guild is None or possibleID is None:
-        return None
-    
-    possibleID = possibleID.strip();
-    try:
-        if possibleID.startswith("<@") and possibleID.endswith(">"):
-            userID: int = int(possibleID[2:len(possibleID) - 1])
-            if guild_has_member(guild, userID):
-                return None
-            return userID
-    except ValueError:
-        return None
-
-    return None
-
-def chat_handle_from_id(handle: int | None) -> str:
-    return f"<@{handle}>"
-
-def guild_has_member(guild: discord.Guild, userID: int) -> bool:
-    return get_member(guild, userID) is not None
-def get_member(guild: discord.Guild | None, userID: int | None) -> discord.Member | None:
-    if guild is None or userID is None:
-        return None
-
-    return guild.get_member(userID)
 
 #@bot.event
 #async def on_ready() -> None:
@@ -101,9 +54,7 @@ def get_member(guild: discord.Guild | None, userID: int | None) -> discord.Membe
             #role = await guild.create_role(name = "Timed Out Standoff", permissions = newPermissions)
 
 @bot.event
-async def on_message(message: discord.Message) -> None:
-    global gifRepliesEnabled
-    
+async def fixEmbed(message: discord.Message) -> None:
     if message.author.bot:
         return
 
@@ -115,8 +66,8 @@ async def on_message(message: discord.Message) -> None:
         commandSections: list[str] = command.split(" ")
 
         if commandSections[0] == "&setgifreplies" and  len(commandSections) > 1:
-            if message.author.id not in adminIDs:
-                if message.author.id == lintyID:
+            if general.isAdmin(message.author.id) == False:
+                if message.author.id == general.lintyID:
                     await message.reply("stfu")
                 else:
                     await message.reply("you do NYAT have perms for dat! ^. .^₎⟆")
@@ -124,23 +75,23 @@ async def on_message(message: discord.Message) -> None:
 
             enabled: str = commandSections[1].lower()
             if enabled == "true":
-                gifRepliesEnabled = True
-                if message.author.id == galeID:
+                onmessage.setGIFReplies(True)
+                if message.author.id == general.galeID:
                     await message.reply("Gif replies enabled")
                 else:
                     await message.reply("gif replies: enabled, nyaa (⸝⸝⸝O﹏ O⸝⸝⸝)")
             elif enabled == "false":
-                gifRepliesEnabled = False
-                if message.author.id == galeID:
+                onmessage.setGIFReplies(False)
+                if message.author.id == general.galeID:
                     await message.reply("Gif replies disabled")
                 else:
                     await message.reply("nyaaaa, gif replies: disabled ૮꒰ ˶- ༝ - ˶꒱ა ♡")
-            elif message.author.id == galeID:
+            elif message.author.id == general.galeID:
                 await message.reply("Usage: &setgifreplies [true/false]")
             else:
                 await message.reply("purr, you are NYAT using proper syntax! use: &setgifreplies [true/false] (˶˃ᆺ˂˶)")
         elif commandSections[0] == "&pingcheese":
-            await message.channel.send(f"Hourly {chat_handle_from_id(421792271843721216)} ping!");
+            await message.channel.send(f"Hourly {general.chat_handle_from_id(421792271843721216)} ping!");
         #elif commandSections[0] == "&standoff" and len(commandSections) > 2:
             #if commandSections[1] == "embedremove":
                 #targetMember: discord.Member | None = get_member(message.guild, parse_member_id(message.guild, commandSections[2]))
@@ -170,29 +121,12 @@ async def on_message(message: discord.Message) -> None:
 
         return
 
-    fixed: str = message.content
-    for pattern, replacement in EMBED_FIXES:
-        fixed = pattern.sub(replacement, fixed)
-    
-    if fixed != message.content:
-        try:
-            await message.channel.send(f"{message.author.mention} posted: {fixed}")
-            await message.delete()
-        except discord.Forbidden as e:
-            print(f"Missing permissions: {e}")
-        except discord.HTTPException as e:
-            print(f"HTTP error: {e}")
-                
-    if gifRepliesEnabled:
-        for pattern, reply in GIF_REPLIES:
-            if pattern.search(message.content):
-                replyMessage: discord.Message
-                if(message.reference is None or message.reference.message_id is None):
-                    replyMessage = message
-                else:
-                    replyMessage = await message.channel.fetch_message(message.reference.message_id)
-                await replyMessage.reply(reply)
-                break
+    await onmessage.fixEmbed(message);
+    await onmessage.gifReply(message);
+
+@bot.event
+async def on_raw_reaction_add(rawReactionActionEvent: discord.RawReactionActionEvent) -> None:
+    await onreaction.checkPinMessage(bot, rawReactionActionEvent)
 
 #Begin
 webserver.keep_alive()
