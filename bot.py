@@ -111,11 +111,7 @@ async def on_message(message: discord.Message) -> None:
         command = re.sub(r" {2,}", " ", command) #set all remaining whitespace to one whitespace/remove all double spaces
         commandSections: list[str] = command.split(" ")
 
-        if commandSections[0] == "&setgifreplies":
-            if len(commandSections) == 2:
-                await message.reply("Usage: &setgifreplies [true/false]")
-                return
-
+        if commandSections[0] == "&setgifreplies" and  len(commandSections) > 1:
             if message.author.id not in adminIDs:
                 await message.reply("You don't have the motion for that")
                 return
