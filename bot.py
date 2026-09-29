@@ -23,7 +23,10 @@ intents.members = True
 
 bot: commands.Bot = commands.Bot(command_prefix = "!", intents = intents)
 
-adminIDs: list[int] = [221075470437842944, 424304430184398849]
+galeID: int = 221075470437842944
+goloID: int = 424304430184398849
+lintyID: int = 272210308846583808
+adminIDs: list[int] = [galeID, goloID]
 
 gifRepliesEnabled: bool = False
 
@@ -113,18 +116,30 @@ async def on_message(message: discord.Message) -> None:
 
         if commandSections[0] == "&setgifreplies" and  len(commandSections) > 1:
             if message.author.id not in adminIDs:
-                await message.reply("you do NYAT have perms for dat! ^. .^₎⟆")
+                if message.author.id == lintyID:
+                    await message.reply("stfu")
+                else:
+                    await message.reply("you do NYAT have perms for dat! ^. .^₎⟆")
                 return
 
             enabled: str = commandSections[1].lower()
             if(enabled == "true"):
                 gifRepliesEnabled = True
-                await message.reply("gif replies: enabled, nyaa (⸝⸝⸝O﹏ O⸝⸝⸝)")
+                if message.author.id == goloID:
+                    await message.reply("gif replies: enabled, nyaa (⸝⸝⸝O﹏ O⸝⸝⸝)")
+                else:
+                    await message.reply("Gif replies enabled")
             elif (enabled == "false"):
                 gifRepliesEnabled = False
+                if message.author.id == goloID:
+                    await message.reply("nyaaaa, gif replies: disabled ૮꒰ ˶- ༝ - ˶꒱ა ♡")
+                else:                    
+                    await message.reply("Gif replies disabled")
+            elif message.author.id == goloID:
                 await message.reply("nyaaaa, gif replies: disabled ૮꒰ ˶- ༝ - ˶꒱ა ♡")
-            else:
-                await message.reply("ur nyaat using proper syntax! use: &setgifreplies [true/false] (,,>﹏<,,)")
+            else:                    
+                await message.reply("Gif replies disabled")
+         
         #elif commandSections[0] == "&standoff" and len(commandSections) > 2:
             #if commandSections[1] == "embedremove":
                 #targetMember: discord.Member | None = get_member(message.guild, parse_member_id(message.guild, commandSections[2]))
