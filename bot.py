@@ -18,10 +18,9 @@ from discord.ext import commands
 import webserver
 
 import general
-
-import onmessage.embedfixer 
-import onmessage.gifreply
-import onreaction.pinning
+import embedfixer 
+import gifreply
+import pinning
 
 load_dotenv()
 token: str | None = os.getenv("DISCORD_TOKEN")
@@ -76,13 +75,13 @@ async def fixEmbed(message: discord.Message) -> None:
 
             enabled: str = commandSections[1].lower()
             if enabled == "true":
-                onmessage.gifreply.setGIFReplies(True)
+                gifreply.setGIFReplies(True)
                 if message.author.id == general.galeID:
                     await message.reply("Gif replies enabled")
                 else:
                     await message.reply("gif replies: enabled, nyaa (⸝⸝⸝O﹏ O⸝⸝⸝)")
             elif enabled == "false":
-                onmessage.gifreply.setGIFReplies(False)
+                gifreply.setGIFReplies(False)
                 if message.author.id == general.galeID:
                     await message.reply("Gif replies disabled")
                 else:
@@ -122,12 +121,12 @@ async def fixEmbed(message: discord.Message) -> None:
 
         return
 
-    await onmessage.embedfixer.fixEmbed(message);
-    await onmessage.gifreply.gifReply(message);
+    await embedfixer.fixEmbed(message);
+    await gifreply.gifReply(message);
 
 @bot.event
 async def on_raw_reaction_add(rawReactionActionEvent: discord.RawReactionActionEvent) -> None:
-    await onreaction.pinning.checkPinMessage(bot, rawReactionActionEvent)
+    await pinning.checkPinMessage(bot, rawReactionActionEvent)
 
 #Begin
 webserver.keep_alive()
