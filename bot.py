@@ -21,7 +21,7 @@ import embedfixer
 import gifreply
 import pinning
 
-version: int = 5
+version: int = 6
 
 load_dotenv()
 token: str | None = os.getenv("DISCORD_TOKEN")

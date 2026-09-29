@@ -18,14 +18,14 @@ async def get_message(bot: commands.Bot, payload: discord.RawReactionActionEvent
     return await channel.fetch_message(payload.message_id)
 
 async def checkPin(commandMessage: Message | None, pinMessage: Message) -> None:
-    debugMessage: str = "";
+    debugMessage: str = f"{len(pinMessage.reactions)}   ";
 
     pushpins: int = 0
     for reaction in pinMessage.reactions:
         if reaction.emoji is not Emoji:
             continue
         
-        debugMessage += f"{debugMessage}, {reaction.emoji.id}";
+        debugMessage = f"{debugMessage}, {reaction.emoji.id}";
 
         if reaction.emoji.name is None or reaction.emoji.name != "pushpin":
             continue
