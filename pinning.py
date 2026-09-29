@@ -24,9 +24,10 @@ async def checkPin(commandMessage: Message | None, message: Message) -> None:
     for reaction in message.reactions:
         if reaction.emoji is not Emoji:
             continue
+        
+        debugMessage += f"{debugMessage}, {reaction.emoji.name}";
 
         if reaction.emoji.name is None or reaction.emoji.name != "pushpin":
-            debugMessage += f"{debugMessage}, {reaction.emoji.name}";
             continue
 
         pushpins = reaction.count
