@@ -1,5 +1,4 @@
 import re
-
 import discord
 
 gifRepliesEnabled: bool = False

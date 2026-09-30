@@ -7,3 +7,5 @@
 - Instagram (kkinstagram)
 - Bluesky (bskye)
 - Threads (vxthreads)
+
+### (it got feature crept pretty bad and now does things like sending gifs with string detection but i digress)
