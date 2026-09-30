@@ -19,9 +19,8 @@ import webserver
 import general
 import embedfixer 
 import gifreply
-import pinning
 
-version: int = 15
+version: int = 16
 
 load_dotenv()
 token: str | None = os.getenv("DISCORD_TOKEN")
@@ -59,30 +58,6 @@ async def on_message(message: Message) -> None:
                 return
 
             await message.reply(f"Current Version is {version}.")
-        elif commandSections[0] == "&pin" and len(commandSections) > 1:
-            if message.author.id != general.galeID:
-                await message.reply("Your mother has hairy toes")
-                return
-            
-            botPermissions: Permissions = message.channel.permissions_for(botMember)
-            if not botPermissions.pin_messages:
-                await message.reply("I cannot add pins, requires 'pin_messages' permission")                
-                return
-
-            if message.reference is None:
-                await message.reply("Reply to message you want to pin dumbass")
-                return
-            
-            if message.reference.message_id is None:
-                await message.reply("I don't know why your command did't work")
-                return
-                
-            pinMessage: Message = await message.channel.fetch_message(message.reference.message_id)
-
-            if commandSections[1] == "check":
-                await pinning.checkPin(pinMessage)
-            elif commandSections[0] == "remove":
-                await pinMessage.unpin()
         elif commandSections[0] == "&setgifreplies" and  len(commandSections) > 1:
             if general.isAdmin(message.author.id) == False:
                 if message.author.id == general.lintyID:
@@ -115,10 +90,6 @@ async def on_message(message: Message) -> None:
 
     await embedfixer.fixEmbed(message);
     await gifreply.gifReply(message);
-
-@bot.event
-async def on_raw_reaction_add(rawReactionActionEvent: discord.RawReactionActionEvent) -> None:
-    await pinning.checkPinMessage(bot, rawReactionActionEvent)
 
 #Begin
 webserver.keep_alive()
