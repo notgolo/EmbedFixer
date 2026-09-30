@@ -2,12 +2,16 @@ import re
 import discord
 
 EMBED_FIXES: list[tuple[re.Pattern[str], str]] = [
-    (re.compile(r"(?<!vx)(?<!fx)(?:www\.)?(?:twitter|x)\.com"), "www.vxtwitter.com"),
-    (re.compile(r"(?<!kk)(?<!dd)(?:www\.)?instagram\.com"), "www.kkinstagram.com"),
-    (re.compile(r"(?:www\.)?tiktok\.com"), "www.tnktok.com"),
-    (re.compile(r"(?<!vx)(?:(?:www\.)?old\.)?(?:www\.)?(?:reddit)\.com"), "www.vxreddit.com"),
-    (re.compile(r"(?:www\.)?bsky\.app"), "bskye.app"),
-    (re.compile(r"(?:www\.)?threads\.com"), "www.vxthreads.com"),
+    (re.compile(r"\b(www\.twitter\.com|https://www\.twitter\.com|https://twitter\.com)"), "https://www.vxtwitter.com"),
+    (re.compile(r"\b(www\.x\.com|https://www\.x\.com|https://x\.com)"), "https://www.vxtwitter.com"),
+
+    (re.compile(r"\b(www\.reddit\.com|https://www\.reddit\.com|https://reddit\.com)"), "https://www.vxreddit.com"),
+    (re.compile(r"\b(old\.reddit\.com|https://old\.reddit\.com)"), "https://www.vxreddit.com"),
+    
+    (re.compile(r"\b(www\.instagram\.com|https://www\.instagram\.com|https://instagram\.com)"), "https://www.kkinstagram.com"),
+    (re.compile(r"\b(www\.tiktok\.com|https://www\.tiktok\.com|https://tiktok\.com)"), "https://www.tnktok.com"),
+    (re.compile(r"\b(www\.bsky\.app|https://www\.bsky\.app|https://bsky\.app)"), "https://www.bskye.app"),
+    (re.compile(r"\b(www\.threads\.com|https://www\.threads\.com|https://threads\.com)"), "https://www.vxthreads.com"),
 ]
 
 async def fixEmbed(message: discord.Message) -> None:
