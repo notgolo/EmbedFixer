@@ -12,6 +12,7 @@ EMBED_FIXES: list[tuple[re.Pattern[str], str]] = [
 
 async def fixEmbed(message: discord.Message) -> None:
     fixed: str = message.content
+
     for pattern, replacement in EMBED_FIXES:
         fixed = pattern.sub(replacement, fixed)
     

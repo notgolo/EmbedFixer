@@ -32,7 +32,7 @@ async def checkPin( pinMessage: Message) -> None:
         break
 
     if pushpins > 3:
-        await pinMessage.pin(reason = "Pinned via bot vote.")
+        await pinMessage.pin(reason = "📌 pinned by popular vote!! the people have spoken (˶ᵔᵕᵔ˶) history shall be preserved~")
 
 async def checkPinMessage(bot: commands.Bot, payload: discord.RawReactionActionEvent) -> None:
     if str(payload.emoji) != "📌":
